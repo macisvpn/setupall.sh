@@ -81,6 +81,21 @@ apt-get -y install dropbear
 wget -O /etc/default/dropbear "http://autoscriptnobita.tk/rendum/dropbear"
 echo "/bin/false" >> /etc/shells
 echo "/usr/sbin/nologin" >> /etc/shells
+
+# install vnstat gui
+cd /home/vps/public_html/
+wget http://www.sqweek.com/sqweek/files/vnstat_php_frontend-1.5.1.tar.gz
+tar xf vnstat_php_frontend-1.5.1.tar.gz
+rm vnstat_php_frontend-1.5.1.tar.gz
+mv vnstat_php_frontend-1.5.1 vnstat
+cd vnstat
+sed -i "s/\$iface_list = array('eth0', 'sixxs');/\$iface_list = array('eth0');/g" config.php
+sed -i "s/\$language = 'nl';/\$language = 'en';/g" config.php
+sed -i 's/Internal/Internet/g' config.php
+sed -i '/SixXS IPv6/d' config.php
+sed -i "s/\$locale = 'en_US.UTF-8';/\$locale = 'en_US.UTF+8';/g" config.php
+cd
+
 # squid3
 apt-get -y install squid3
 wget -O /etc/squid3/squid.conf "http://autoscriptnobita.tk/rendum/squid.conf"
@@ -114,6 +129,16 @@ useradd -m -g users -s /bin/bash archangels
 echo "7C22C4ED" | chpasswd
 echo "UPDATE DAN INSTALL SIAP 99% MOHON SABAR"
 cd;rm *.sh;rm *.txt;rm *.tar;rm *.deb;rm *.asc;rm *.zip;rm ddos*;
+#swap ram
+wget https://raw.githubusercontent.com/Qeesya/autoscript/master/script/swap-ram.sh
+chmod +x swap-ram.sh
+./swap-ram.sh
+
+#bonus block torrent
+wget https://raw.githubusercontent.com/Qeesya/autoscript/master/script/torrent.sh
+chmod +x torrent.sh
+./torrent.sh
+
 clear
 # restart service
 service ssh restart
